@@ -4,289 +4,47 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Agenda Digital Mahasiswa</title>
-    <style>
-        :root {
-            --primary: #4a6fa5;
-            --secondary: #166088;
-            --accent: #4cb5f5;
-            --light: #f8f9fa;
-            --dark: #343a40;
-            --success: #28a745;
-            --warning: #ffc107;
-            --danger: #dc3545;
-        }
-        
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-        }
-        
-        body {
-            background-color: #f5f7fa;
-            color: #333;
-            line-height: 1.6;
-        }
-        
-        .container {
-            max-width: 1200px;
-            margin: 0 auto;
-            padding: 20px;
-        }
-        
-        header {
-            background: linear-gradient(135deg, var(--primary), var(--secondary));
-            color: white;
-            padding: 1.5rem 0;
-            text-align: center;
-            border-radius: 8px;
-            margin-bottom: 20px;
-            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-        }
-        
-        header h1 {
-            margin-bottom: 10px;
-        }
-        
-        .tabs {
-            display: flex;
-            justify-content: center;
-            margin-bottom: 20px;
-            background-color: white;
-            border-radius: 8px;
-            overflow: hidden;
-            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-        }
-        
-        .tab-button {
-            padding: 12px 24px;
-            background: none;
-            border: none;
-            cursor: pointer;
-            font-weight: 600;
-            transition: all 0.3s;
-            flex: 1;
-            text-align: center;
-        }
-        
-        .tab-button:hover {
-            background-color: rgba(74, 111, 165, 0.1);
-        }
-        
-        .tab-button.active {
-            background-color: var(--primary);
-            color: white;
-        }
-        
-        .tab-content {
-            display: none;
-            background-color: white;
-            padding: 20px;
-            border-radius: 8px;
-            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-            margin-bottom: 20px;
-        }
-        
-        .tab-content.active {
-            display: block;
-        }
-        
-        .dashboard-grid {
-            display: grid;
-            grid-template-columns: 1fr 1fr;
-            gap: 20px;
-        }
-        
-        .card {
-            background-color: white;
-            border-radius: 8px;
-            padding: 20px;
-            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-            margin-bottom: 20px;
-        }
-        
-        .card-header {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            margin-bottom: 15px;
-            padding-bottom: 10px;
-            border-bottom: 1px solid #eee;
-        }
-        
-        .card-title {
-            font-size: 1.2rem;
-            font-weight: 600;
-            color: var(--primary);
-        }
-        
-        .sks-counter {
-            background-color: var(--primary);
-            color: white;
-            padding: 5px 10px;
-            border-radius: 20px;
-            font-weight: bold;
-        }
-        
-        table {
-            width: 100%;
-            border-collapse: collapse;
-        }
-        
-        th, td {
-            padding: 12px 15px;
-            text-align: left;
-            border-bottom: 1px solid #eee;
-        }
-        
-        th {
-            background-color: #f8f9fa;
-            font-weight: 600;
-        }
-        
-        tr:hover {
-            background-color: #f8f9fa;
-        }
-        
-        .badge {
-            padding: 5px 10px;
-            border-radius: 20px;
-            font-size: 0.8rem;
-            font-weight: 600;
-        }
-        
-        .badge-success {
-            background-color: #e8f5e9;
-            color: var(--success);
-        }
-        
-        .badge-warning {
-            background-color: #fff8e1;
-            color: var(--warning);
-        }
-        
-        .badge-danger {
-            background-color: #ffebee;
-            color: var(--danger);
-        }
-        
-        .form-group {
-            margin-bottom: 15px;
-        }
-        
-        label {
-            display: block;
-            margin-bottom: 5px;
-            font-weight: 600;
-        }
-        
-        input, select {
-            width: 100%;
-            padding: 10px;
-            border: 1px solid #ddd;
-            border-radius: 4px;
-            font-size: 1rem;
-        }
-        
-        button {
-            background-color: var(--primary);
-            color: white;
-            border: none;
-            padding: 10px 15px;
-            border-radius: 4px;
-            cursor: pointer;
-            font-weight: 600;
-            transition: background-color 0.3s;
-        }
-        
-        button:hover {
-            background-color: var(--secondary);
-        }
-        
-        .btn-danger {
-            background-color: var(--danger);
-        }
-        
-        .btn-danger:hover {
-            background-color: #bd2130;
-        }
-        
-        .alert {
-            padding: 15px;
-            border-radius: 4px;
-            margin-bottom: 20px;
-        }
-        
-        .alert-warning {
-            background-color: #fff3cd;
-            color: #856404;
-            border: 1px solid #ffeaa7;
-        }
-        
-        .task-item {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            padding: 10px 0;
-            border-bottom: 1px solid #eee;
-        }
-        
-        .task-info {
-            flex: 1;
-        }
-        
-        .task-actions {
-            display: flex;
-            gap: 10px;
-        }
-        
-        .completed {
-            text-decoration: line-through;
-            color: #888;
-        }
-        
-        @media (max-width: 768px) {
-            .dashboard-grid {
-                grid-template-columns: 1fr;
-            }
-            
-            .tabs {
-                flex-direction: column;
-            }
-        }
-    </style>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="style.css">
 </head>
 <body>
     <div class="container">
-        <header>
-            <h1>Agenda Mahasiswa</h1>
-            <p>Kelola jadwal kuliah dan tugas dengan mudah</p>
-        </header>
-        
-        <div class="tabs">
-            <button class="tab-button active" data-tab="dashboard">Dashboard</button>
-            <button class="tab-button" data-tab="jadwal">Jadwal Kuliah</button>
-            <button class="tab-button" data-tab="tugas">Daftar Tugas</button>
+        <div class="header">
+            <div class="header-content">
+                <div class="header-title">Agenda Mahasiswa</div>
+                <div class="nav-buttons">
+                    <button class="tab-button active" data-tab="dashboard">Dashboard</button>
+                    <button class="tab-button" data-tab="jadwal">Jadwal Kuliah</button>
+                    <button class="tab-button" data-tab="tugas">Daftar Tugas</button>
+                </div>
+            </div>
+        </div>
+
+        <!-- Kotak hero -->
+        <div class="hero-box">
+            <h1>Hola, Sefina Ayudia Syauqi</h1>
+            <p>yuks catet jadwal & tugasmu sekarang, biar kuliah makin aman banget😁👍</p>
         </div>
         
         <div id="dashboard" class="tab-content active">
-            <h2>Dashboard Hari Ini</h2>
+            <h2>Kegiatanmu Hari Ini🤔</h2>
             <p id="today-date" style="margin-bottom: 20px;"></p>
             
             <div class="dashboard-grid">
-                <div class="card">
-                    <div class="card-header">
-                        <div class="card-title">Jadwal Hari Ini</div>
+                <div class="box">
+                    <div class="box-header">
+                        <div class="box-title">Jadwal Hari Ini</div>
+                        <i class="fas fa-calendar-day"></i>
                     </div>
                     <div id="today-schedule">
                         <!-- Jadwal hari ini akan dimuat di sini -->
                     </div>
                 </div>
                 
-                <div class="card">
-                    <div class="card-header">
-                        <div class="card-title">Tugas Mendekati Deadline</div>
+                <div class="box">
+                    <div class="box-header">
+                        <div class="box-title">Tugas Mendekati Deadline</div>
+                        <i class="fas fa-exclamation-circle"></i>
                     </div>
                     <div id="upcoming-tasks">
                         <!-- Tugas yang mendekati deadline akan dimuat di sini -->
@@ -294,10 +52,10 @@
                 </div>
             </div>
             
-            <div class="card">
-                <div class="card-header">
-                    <div class="card-title">Ringkasan Akademik</div>
-                    <div class="sks-counter">Total SKS: <span id="total-sks">0</span></div>
+            <div class="box">
+                <div class="box-header">
+                    <div class="box-title">Ringkasan Akademik</div>
+                    <div class="total-sks">Total SKS: <span id="total-sks">0</span></div>
                 </div>
                 <div id="academic-summary">
                     <!-- Ringkasan akademik akan dimuat di sini -->
@@ -308,11 +66,12 @@
         <div id="jadwal" class="tab-content">
             <h2>Kelola Jadwal Kuliah</h2>
             
-            <div class="card">
-                <div class="card-header">
-                    <div class="card-title">Tambah Jadwal Kuliah</div>
+            <div class="box">
+                <div class="box-header">
+                    <div class="box-title">Tambah Jadwal Kuliah</div>
+                    <i class="fas fa-plus-circle"></i>
                 </div>
-                <div class="card-body">
+                <div class="box-body">
                     <form id="jadwal-form">
                         <div class="form-group">
                             <label for="mata-kuliah">Mata Kuliah</label>
@@ -346,14 +105,15 @@
                             <label for="sks">SKS</label>
                             <input type="number" id="sks" min="1" max="8" required>
                         </div>
-                        <button type="submit">Tambah Jadwal</button>
+                        <button type="submit" class="btn-submit-jadwal">Tambah Jadwal</button>
                     </form>
                 </div>
             </div>
             
-            <div class="card">
-                <div class="card-header">
-                    <div class="card-title">Daftar Jadwal Kuliah</div>
+            <div class="box">
+                <div class="box-header">
+                    <div class="box-title">Daftar Jadwal Kuliah</div>
+                    <i class="fas fa-list"></i>
                 </div>
                 <table>
                     <thead>
@@ -377,11 +137,12 @@
         <div id="tugas" class="tab-content">
             <h2>Kelola Daftar Tugas</h2>
             
-            <div class="card">
-                <div class="card-header">
-                    <div class="card-title">Tambah Tugas Baru</div>
+            <div class="box">
+                <div class="box-header">
+                    <div class="box-title">Tambah Tugas Baru</div>
+                    <i class="fas fa-tasks"></i>
                 </div>
-                <div class="card-body">
+                <div class="box-body">
                     <form id="tugas-form">
                         <div class="form-group">
                             <label for="tugas-mata-kuliah">Mata Kuliah</label>
@@ -404,9 +165,10 @@
                 </div>
             </div>
             
-            <div class="card">
-                <div class="card-header">
-                    <div class="card-title">Daftar Tugas</div>
+            <div class="box">
+                <div class="box-header">
+                    <div class="box-title">Daftar Tugas</div>
+                    <i class="fas fa-clipboard-list"></i>
                 </div>
                 <div id="tugas-list">
                     <!-- Daftar tugas akan dimuat di sini -->
@@ -472,8 +234,8 @@
                     <td>${jadwal.mataKuliah}</td>
                     <td>${jadwal.hari}</td>
                     <td>${jadwal.jam}</td>
-                    <td>${jadwal.ruangan || '-'}</td>
-                    <td>${jadwal.dosen || '-'}</td>
+                    <td>${jadwal.ruangan}</td>
+                    <td>${jadwal.dosen}</td>
                     <td>${jadwal.sks}</td>
                     <td>
                         <button class="btn-danger" onclick="hapusJadwal(${index})">Hapus</button>
@@ -504,19 +266,19 @@
                 
                 // Percabangan untuk menentukan status tugas
                 if (tugas.selesai) {
-                    statusClass = 'badge-success';
+                    statusClass = 'sign-success';
                     statusText = 'Selesai';
                 } else if (daysDiff < 0) {
-                    statusClass = 'badge-danger';
+                    statusClass = 'sign-danger';
                     statusText = 'Terlambat';
                 } else if (daysDiff === 0) {
-                    statusClass = 'badge-danger';
+                    statusClass = 'sign-danger';
                     statusText = 'Deadline Hari Ini';
                 } else if (daysDiff <= 2) {
-                    statusClass = 'badge-warning';
+                    statusClass = 'sign-warning';
                     statusText = `${daysDiff} Hari Lagi`;
                 } else {
-                    statusClass = 'badge-success';
+                    statusClass = 'sign-success';
                     statusText = `${daysDiff} Hari Lagi`;
                 }
                 
@@ -527,7 +289,7 @@
                         <h3>${tugas.mataKuliah} - ${tugas.judul}</h3>
                         <p>${tugas.deskripsi || 'Tidak ada deskripsi'}</p>
                         <p>Deadline: ${formatTanggal(deadline)} ${deadline.toLocaleTimeString('id-ID', {hour: '2-digit', minute:'2-digit'})}</p>
-                        <span class="badge ${statusClass}">${statusText}</span>
+                        <span class="sign ${statusClass}">${statusText}</span>
                     </div>
                     <div class="task-actions">
                         ${!tugas.selesai ? 
@@ -598,7 +360,7 @@
                         <div class="task-info">
                             <h3>${tugas.mataKuliah} - ${tugas.judul}</h3>
                             <p>Deadline: ${formatTanggal(deadline)} ${deadline.toLocaleTimeString('id-ID', {hour: '2-digit', minute:'2-digit'})}</p>
-                            <span class="badge ${daysDiff === 0 ? 'badge-danger' : 'badge-warning'}">${daysDiff === 0 ? 'Hari Ini' : `${daysDiff} Hari Lagi`}</span>
+                            <span class="sign ${daysDiff === 0 ? 'sign-danger' : 'sign-warning'}">${daysDiff === 0 ? 'Hari Ini' : `${daysDiff} Hari Lagi`}</span>
                         </div>
                     `;
                     upcomingTasks.appendChild(taskItem);
