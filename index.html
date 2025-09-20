@@ -1,0 +1,739 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Agenda Digital Mahasiswa</title>
+    <style>
+        :root {
+            --primary: #4a6fa5;
+            --secondary: #166088;
+            --accent: #4cb5f5;
+            --light: #f8f9fa;
+            --dark: #343a40;
+            --success: #28a745;
+            --warning: #ffc107;
+            --danger: #dc3545;
+        }
+        
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+        
+        body {
+            background-color: #f5f7fa;
+            color: #333;
+            line-height: 1.6;
+        }
+        
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+        
+        header {
+            background: linear-gradient(135deg, var(--primary), var(--secondary));
+            color: white;
+            padding: 1.5rem 0;
+            text-align: center;
+            border-radius: 8px;
+            margin-bottom: 20px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        }
+        
+        header h1 {
+            margin-bottom: 10px;
+        }
+        
+        .tabs {
+            display: flex;
+            justify-content: center;
+            margin-bottom: 20px;
+            background-color: white;
+            border-radius: 8px;
+            overflow: hidden;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+        }
+        
+        .tab-button {
+            padding: 12px 24px;
+            background: none;
+            border: none;
+            cursor: pointer;
+            font-weight: 600;
+            transition: all 0.3s;
+            flex: 1;
+            text-align: center;
+        }
+        
+        .tab-button:hover {
+            background-color: rgba(74, 111, 165, 0.1);
+        }
+        
+        .tab-button.active {
+            background-color: var(--primary);
+            color: white;
+        }
+        
+        .tab-content {
+            display: none;
+            background-color: white;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+            margin-bottom: 20px;
+        }
+        
+        .tab-content.active {
+            display: block;
+        }
+        
+        .dashboard-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 20px;
+        }
+        
+        .card {
+            background-color: white;
+            border-radius: 8px;
+            padding: 20px;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+            margin-bottom: 20px;
+        }
+        
+        .card-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 15px;
+            padding-bottom: 10px;
+            border-bottom: 1px solid #eee;
+        }
+        
+        .card-title {
+            font-size: 1.2rem;
+            font-weight: 600;
+            color: var(--primary);
+        }
+        
+        .sks-counter {
+            background-color: var(--primary);
+            color: white;
+            padding: 5px 10px;
+            border-radius: 20px;
+            font-weight: bold;
+        }
+        
+        table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+        
+        th, td {
+            padding: 12px 15px;
+            text-align: left;
+            border-bottom: 1px solid #eee;
+        }
+        
+        th {
+            background-color: #f8f9fa;
+            font-weight: 600;
+        }
+        
+        tr:hover {
+            background-color: #f8f9fa;
+        }
+        
+        .badge {
+            padding: 5px 10px;
+            border-radius: 20px;
+            font-size: 0.8rem;
+            font-weight: 600;
+        }
+        
+        .badge-success {
+            background-color: #e8f5e9;
+            color: var(--success);
+        }
+        
+        .badge-warning {
+            background-color: #fff8e1;
+            color: var(--warning);
+        }
+        
+        .badge-danger {
+            background-color: #ffebee;
+            color: var(--danger);
+        }
+        
+        .form-group {
+            margin-bottom: 15px;
+        }
+        
+        label {
+            display: block;
+            margin-bottom: 5px;
+            font-weight: 600;
+        }
+        
+        input, select {
+            width: 100%;
+            padding: 10px;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+            font-size: 1rem;
+        }
+        
+        button {
+            background-color: var(--primary);
+            color: white;
+            border: none;
+            padding: 10px 15px;
+            border-radius: 4px;
+            cursor: pointer;
+            font-weight: 600;
+            transition: background-color 0.3s;
+        }
+        
+        button:hover {
+            background-color: var(--secondary);
+        }
+        
+        .btn-danger {
+            background-color: var(--danger);
+        }
+        
+        .btn-danger:hover {
+            background-color: #bd2130;
+        }
+        
+        .alert {
+            padding: 15px;
+            border-radius: 4px;
+            margin-bottom: 20px;
+        }
+        
+        .alert-warning {
+            background-color: #fff3cd;
+            color: #856404;
+            border: 1px solid #ffeaa7;
+        }
+        
+        .task-item {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 10px 0;
+            border-bottom: 1px solid #eee;
+        }
+        
+        .task-info {
+            flex: 1;
+        }
+        
+        .task-actions {
+            display: flex;
+            gap: 10px;
+        }
+        
+        .completed {
+            text-decoration: line-through;
+            color: #888;
+        }
+        
+        @media (max-width: 768px) {
+            .dashboard-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            .tabs {
+                flex-direction: column;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>Agenda Mahasiswa</h1>
+            <p>Kelola jadwal kuliah dan tugas dengan mudah</p>
+        </header>
+        
+        <div class="tabs">
+            <button class="tab-button active" data-tab="dashboard">Dashboard</button>
+            <button class="tab-button" data-tab="jadwal">Jadwal Kuliah</button>
+            <button class="tab-button" data-tab="tugas">Daftar Tugas</button>
+        </div>
+        
+        <div id="dashboard" class="tab-content active">
+            <h2>Dashboard Hari Ini</h2>
+            <p id="today-date" style="margin-bottom: 20px;"></p>
+            
+            <div class="dashboard-grid">
+                <div class="card">
+                    <div class="card-header">
+                        <div class="card-title">Jadwal Hari Ini</div>
+                    </div>
+                    <div id="today-schedule">
+                        <!-- Jadwal hari ini akan dimuat di sini -->
+                    </div>
+                </div>
+                
+                <div class="card">
+                    <div class="card-header">
+                        <div class="card-title">Tugas Mendekati Deadline</div>
+                    </div>
+                    <div id="upcoming-tasks">
+                        <!-- Tugas yang mendekati deadline akan dimuat di sini -->
+                    </div>
+                </div>
+            </div>
+            
+            <div class="card">
+                <div class="card-header">
+                    <div class="card-title">Ringkasan Akademik</div>
+                    <div class="sks-counter">Total SKS: <span id="total-sks">0</span></div>
+                </div>
+                <div id="academic-summary">
+                    <!-- Ringkasan akademik akan dimuat di sini -->
+                </div>
+            </div>
+        </div>
+        
+        <div id="jadwal" class="tab-content">
+            <h2>Kelola Jadwal Kuliah</h2>
+            
+            <div class="card">
+                <div class="card-header">
+                    <div class="card-title">Tambah Jadwal Kuliah</div>
+                </div>
+                <div class="card-body">
+                    <form id="jadwal-form">
+                        <div class="form-group">
+                            <label for="mata-kuliah">Mata Kuliah</label>
+                            <input type="text" id="mata-kuliah" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="hari">Hari</label>
+                            <select id="hari" required>
+                                <option value="">Pilih Hari</option>
+                                <option value="Senin">Senin</option>
+                                <option value="Selasa">Selasa</option>
+                                <option value="Rabu">Rabu</option>
+                                <option value="Kamis">Kamis</option>
+                                <option value="Jumat">Jumat</option>
+                                <option value="Sabtu">Sabtu</option>
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label for="jam">Jam</label>
+                            <input type="time" id="jam" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="ruangan">Ruangan</label>
+                            <input type="text" id="ruangan">
+                        </div>
+                        <div class="form-group">
+                            <label for="dosen">Dosen Pengampu</label>
+                            <input type="text" id="dosen">
+                        </div>
+                        <div class="form-group">
+                            <label for="sks">SKS</label>
+                            <input type="number" id="sks" min="1" max="8" required>
+                        </div>
+                        <button type="submit">Tambah Jadwal</button>
+                    </form>
+                </div>
+            </div>
+            
+            <div class="card">
+                <div class="card-header">
+                    <div class="card-title">Daftar Jadwal Kuliah</div>
+                </div>
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Mata Kuliah</th>
+                            <th>Hari</th>
+                            <th>Jam</th>
+                            <th>Ruangan</th>
+                            <th>Dosen</th>
+                            <th>SKS</th>
+                            <th>Aksi</th>
+                        </tr>
+                    </thead>
+                    <tbody id="jadwal-list">
+                        <!-- Daftar jadwal akan dimuat di sini -->
+                    </tbody>
+                </table>
+            </div>
+        </div>
+        
+        <div id="tugas" class="tab-content">
+            <h2>Kelola Daftar Tugas</h2>
+            
+            <div class="card">
+                <div class="card-header">
+                    <div class="card-title">Tambah Tugas Baru</div>
+                </div>
+                <div class="card-body">
+                    <form id="tugas-form">
+                        <div class="form-group">
+                            <label for="tugas-mata-kuliah">Mata Kuliah</label>
+                            <input type="text" id="tugas-mata-kuliah" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="judul-tugas">Judul Tugas</label>
+                            <input type="text" id="judul-tugas" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="deskripsi">Deskripsi</label>
+                            <input type="text" id="deskripsi">
+                        </div>
+                        <div class="form-group">
+                            <label for="deadline">Deadline</label>
+                            <input type="datetime-local" id="deadline" required>
+                        </div>
+                        <button type="submit">Tambah Tugas</button>
+                    </form>
+                </div>
+            </div>
+            
+            <div class="card">
+                <div class="card-header">
+                    <div class="card-title">Daftar Tugas</div>
+                </div>
+                <div id="tugas-list">
+                    <!-- Daftar tugas akan dimuat di sini -->
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Data storage menggunakan array multidimensi
+        let jadwalKuliah = [];
+        let daftarTugas = [];
+        
+        // Hari dalam bahasa Indonesia
+        const days = ['Minggu', 'Senin', 'Selasa', 'Rabu', 'Kamis', 'Jumat', 'Sabtu'];
+        
+        // Fungsi untuk mendapatkan hari ini dalam format Indonesia
+        function getHariIni() {
+            const today = new Date();
+            return days[today.getDay()];
+        }
+        
+        // Fungsi untuk memformat tanggal
+        function formatTanggal(date) {
+            return `${date.getDate()} ${getBulanName(date.getMonth())} ${date.getFullYear()}`;
+        }
+        
+        // Fungsi untuk mendapatkan nama bulan
+        function getBulanName(month) {
+            const months = ['Januari', 'Februari', 'Maret', 'April', 'Mei', 'Juni', 
+                           'Juli', 'Agustus', 'September', 'Oktober', 'November', 'Desember'];
+            return months[month];
+        }
+        
+        // Fungsi untuk memuat data dari localStorage
+        function loadData() {
+            const savedJadwal = localStorage.getItem('jadwalKuliah');
+            const savedTugas = localStorage.getItem('daftarTugas');
+            
+            if (savedJadwal) {
+                jadwalKuliah = JSON.parse(savedJadwal);
+            }
+            
+            if (savedTugas) {
+                daftarTugas = JSON.parse(savedTugas);
+            }
+        }
+        
+        // Fungsi untuk menyimpan data ke localStorage
+        function saveData() {
+            localStorage.setItem('jadwalKuliah', JSON.stringify(jadwalKuliah));
+            localStorage.setItem('daftarTugas', JSON.stringify(daftarTugas));
+        }
+        
+        // Fungsi untuk menampilkan jadwal kuliah
+        function renderJadwal() {
+            const jadwalList = document.getElementById('jadwal-list');
+            jadwalList.innerHTML = '';
+            
+            jadwalKuliah.forEach((jadwal, index) => {
+                const row = document.createElement('tr');
+                row.innerHTML = `
+                    <td>${jadwal.mataKuliah}</td>
+                    <td>${jadwal.hari}</td>
+                    <td>${jadwal.jam}</td>
+                    <td>${jadwal.ruangan || '-'}</td>
+                    <td>${jadwal.dosen || '-'}</td>
+                    <td>${jadwal.sks}</td>
+                    <td>
+                        <button class="btn-danger" onclick="hapusJadwal(${index})">Hapus</button>
+                    </td>
+                `;
+                jadwalList.appendChild(row);
+            });
+            
+            updateDashboard();
+        }
+        
+        // Fungsi untuk menampilkan daftar tugas
+        function renderTugas() {
+            const tugasList = document.getElementById('tugas-list');
+            tugasList.innerHTML = '';
+            
+            // Mengurutkan tugas berdasarkan deadline (pengurutan data)
+            daftarTugas.sort((a, b) => new Date(a.deadline) - new Date(b.deadline));
+            
+            daftarTugas.forEach((tugas, index) => {
+                const deadline = new Date(tugas.deadline);
+                const now = new Date();
+                const timeDiff = deadline - now;
+                const daysDiff = Math.ceil(timeDiff / (1000 * 3600 * 24));
+                
+                let statusClass = '';
+                let statusText = '';
+                
+                // Percabangan untuk menentukan status tugas
+                if (tugas.selesai) {
+                    statusClass = 'badge-success';
+                    statusText = 'Selesai';
+                } else if (daysDiff < 0) {
+                    statusClass = 'badge-danger';
+                    statusText = 'Terlambat';
+                } else if (daysDiff === 0) {
+                    statusClass = 'badge-danger';
+                    statusText = 'Deadline Hari Ini';
+                } else if (daysDiff <= 2) {
+                    statusClass = 'badge-warning';
+                    statusText = `${daysDiff} Hari Lagi`;
+                } else {
+                    statusClass = 'badge-success';
+                    statusText = `${daysDiff} Hari Lagi`;
+                }
+                
+                const taskItem = document.createElement('div');
+                taskItem.className = `task-item ${tugas.selesai ? 'completed' : ''}`;
+                taskItem.innerHTML = `
+                    <div class="task-info">
+                        <h3>${tugas.mataKuliah} - ${tugas.judul}</h3>
+                        <p>${tugas.deskripsi || 'Tidak ada deskripsi'}</p>
+                        <p>Deadline: ${formatTanggal(deadline)} ${deadline.toLocaleTimeString('id-ID', {hour: '2-digit', minute:'2-digit'})}</p>
+                        <span class="badge ${statusClass}">${statusText}</span>
+                    </div>
+                    <div class="task-actions">
+                        ${!tugas.selesai ? 
+                            `<button onclick="tandaiSelesai(${index})">Selesai</button>` : 
+                            `<button onclick="batalkanSelesai(${index})">Batalkan</button>`
+                        }
+                        <button class="btn-danger" onclick="hapusTugas(${index})">Hapus</button>
+                    </div>
+                `;
+                tugasList.appendChild(taskItem);
+            });
+            
+            updateDashboard();
+        }
+        
+        // Fungsi untuk memperbarui dashboard
+        function updateDashboard() {
+            const today = getHariIni();
+            const todayDate = document.getElementById('today-date');
+            todayDate.textContent = formatTanggal(new Date());
+            
+            // Menampilkan jadwal hari ini
+            const todaySchedule = document.getElementById('today-schedule');
+            const jadwalHariIni = jadwalKuliah.filter(jadwal => jadwal.hari === today);
+            
+            if (jadwalHariIni.length === 0) {
+                todaySchedule.innerHTML = '<p>Tidak ada jadwal kuliah hari ini.</p>';
+            } else {
+                todaySchedule.innerHTML = '';
+                jadwalHariIni.forEach(jadwal => {
+                    const scheduleItem = document.createElement('div');
+                    scheduleItem.className = 'task-item';
+                    scheduleItem.innerHTML = `
+                        <div class="task-info">
+                            <h3>${jadwal.mataKuliah}</h3>
+                            <p>${jadwal.jam} | ${jadwal.ruangan || 'Tidak ada ruangan'} | ${jadwal.dosen || 'Tidak ada dosen'}</p>
+                        </div>
+                    `;
+                    todaySchedule.appendChild(scheduleItem);
+                });
+            }
+            
+            // Menampilkan tugas yang mendekati deadline
+            const upcomingTasks = document.getElementById('upcoming-tasks');
+            const now = new Date();
+            const tugasMendekatiDeadline = daftarTugas.filter(tugas => {
+                if (tugas.selesai) return false;
+                
+                const deadline = new Date(tugas.deadline);
+                const timeDiff = deadline - now;
+                const daysDiff = Math.ceil(timeDiff / (1000 * 3600 * 24));
+                
+                return daysDiff <= 3 && daysDiff >= 0;
+            });
+            
+            if (tugasMendekatiDeadline.length === 0) {
+                upcomingTasks.innerHTML = '<p>Tidak ada tugas yang mendekati deadline.</p>';
+            } else {
+                upcomingTasks.innerHTML = '';
+                tugasMendekatiDeadline.forEach(tugas => {
+                    const deadline = new Date(tugas.deadline);
+                    const timeDiff = deadline - now;
+                    const daysDiff = Math.ceil(timeDiff / (1000 * 3600 * 24));
+                    
+                    const taskItem = document.createElement('div');
+                    taskItem.className = 'task-item';
+                    taskItem.innerHTML = `
+                        <div class="task-info">
+                            <h3>${tugas.mataKuliah} - ${tugas.judul}</h3>
+                            <p>Deadline: ${formatTanggal(deadline)} ${deadline.toLocaleTimeString('id-ID', {hour: '2-digit', minute:'2-digit'})}</p>
+                            <span class="badge ${daysDiff === 0 ? 'badge-danger' : 'badge-warning'}">${daysDiff === 0 ? 'Hari Ini' : `${daysDiff} Hari Lagi`}</span>
+                        </div>
+                    `;
+                    upcomingTasks.appendChild(taskItem);
+                });
+            }
+            
+            // Menghitung total SKS
+            const totalSKS = document.getElementById('total-sks');
+            const sksCount = jadwalKuliah.reduce((total, jadwal) => total + parseInt(jadwal.sks), 0);
+            totalSKS.textContent = sksCount;
+            
+            // Menampilkan ringkasan akademik
+            const academicSummary = document.getElementById('academic-summary');
+            const totalTugas = daftarTugas.length;
+            const tugasSelesai = daftarTugas.filter(tugas => tugas.selesai).length;
+            const tugasBelumSelesai = totalTugas - tugasSelesai;
+            
+            academicSummary.innerHTML = `
+                <p>Total Mata Kuliah: ${jadwalKuliah.length}</p>
+                <p>Total Tugas: ${totalTugas}</p>
+                <p>Tugas Selesai: ${tugasSelesai}</p>
+                <p>Tugas Belum Selesai: ${tugasBelumSelesai}</p>
+            `;
+        }
+        
+        // Fungsi untuk menambah jadwal kuliah
+        function tambahJadwal(event) {
+            event.preventDefault();
+            
+            const mataKuliah = document.getElementById('mata-kuliah').value;
+            const hari = document.getElementById('hari').value;
+            const jam = document.getElementById('jam').value;
+            const ruangan = document.getElementById('ruangan').value;
+            const dosen = document.getElementById('dosen').value;
+            const sks = document.getElementById('sks').value;
+            
+            jadwalKuliah.push({
+                mataKuliah,
+                hari,
+                jam,
+                ruangan,
+                dosen,
+                sks
+            });
+            
+            saveData();
+            renderJadwal();
+            document.getElementById('jadwal-form').reset();
+        }
+        
+        // Fungsi untuk menambah tugas
+        function tambahTugas(event) {
+            event.preventDefault();
+            
+            const mataKuliah = document.getElementById('tugas-mata-kuliah').value;
+            const judul = document.getElementById('judul-tugas').value;
+            const deskripsi = document.getElementById('deskripsi').value;
+            const deadline = document.getElementById('deadline').value;
+            
+            daftarTugas.push({
+                mataKuliah,
+                judul,
+                deskripsi,
+                deadline,
+                selesai: false
+            });
+            
+            saveData();
+            renderTugas();
+            document.getElementById('tugas-form').reset();
+        }
+        
+        // Fungsi untuk menghapus jadwal
+        function hapusJadwal(index) {
+            if (confirm('Apakah Anda yakin ingin menghapus jadwal ini?')) {
+                jadwalKuliah.splice(index, 1);
+                saveData();
+                renderJadwal();
+            }
+        }
+        
+        // Fungsi untuk menghapus tugas
+        function hapusTugas(index) {
+            if (confirm('Apakah Anda yakin ingin menghapus tugas ini?')) {
+                daftarTugas.splice(index, 1);
+                saveData();
+                renderTugas();
+            }
+        }
+        
+        // Fungsi untuk menandai tugas sebagai selesai
+        function tandaiSelesai(index) {
+            daftarTugas[index].selesai = true;
+            saveData();
+            renderTugas();
+        }
+        
+        // Fungsi untuk membatalkan status selesai tugas
+        function batalkanSelesai(index) {
+            daftarTugas[index].selesai = false;
+            saveData();
+            renderTugas();
+        }
+        
+        // Fungsi untuk mengelola tab
+        function setupTabs() {
+            const tabButtons = document.querySelectorAll('.tab-button');
+            const tabContents = document.querySelectorAll('.tab-content');
+            
+            tabButtons.forEach(button => {
+                button.addEventListener('click', () => {
+                    const tabId = button.getAttribute('data-tab');
+                    
+                    tabButtons.forEach(btn => btn.classList.remove('active'));
+                    tabContents.forEach(content => content.classList.remove('active'));
+                    
+                    button.classList.add('active');
+                    document.getElementById(tabId).classList.add('active');
+                });
+            });
+        }
+        
+        // Inisialisasi aplikasi
+        function init() {
+            loadData();
+            renderJadwal();
+            renderTugas();
+            setupTabs();
+            
+            document.getElementById('jadwal-form').addEventListener('submit', tambahJadwal);
+            document.getElementById('tugas-form').addEventListener('submit', tambahTugas);
+        }
+        
+        // Jalankan inisialisasi ketika halaman dimuat
+        document.addEventListener('DOMContentLoaded', init);
+    </script>
+</body>
+</html>
